@@ -1,0 +1,32 @@
+{
+  "name": "fullstackopen-bloglist",
+  "version": "1.0.0",
+  "description": "Fullstack Open Course - University of Helsinki - Exercises Part 4",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidmimay/fullstackopen-bloglist.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/davidmimay/fullstackopen-bloglist/issues"
+  },
+  "homepage": "https://github.com/davidmimay/fullstackopen-bloglist#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "mongoose": "^9.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
