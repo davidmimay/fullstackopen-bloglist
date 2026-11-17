@@ -96,3 +96,14 @@ describe('favorite blog', () => {
     assert.deepStrictEqual(result, expected)
   })
 })
+
+describe('most blogs', () => {
+  test('returns the author with the most blogs and the count', () => {
+    const result = listHelper.mostBlogs(blogs)
+    const expected = {
+      author: 'Edsger W. Dijkstra',
+      blogs: 2
+    }
+    assert.deepStrictEqual(result, expected)
+  })
+})
