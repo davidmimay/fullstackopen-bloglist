@@ -38,6 +38,22 @@ const blogs = [
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
     __v: 0
+  },
+  {
+    _id: '5a422aa71b54a676234d17f5',
+    title: 'The Secret Tesla Motors Master Plan, (just between you and me)',
+    author: 'Elon Musk',
+    url: 'https://www.tesla.com/es_es/secret-master-plan',
+    likes: 5,
+    __v: 0
+  },
+  {
+    _id: '5a422aa71b54a676234d17f6',
+    title: 'Master Plan, Part Deux',
+    author: 'Elon Musk',
+    url: 'https://www.tesla.com/es_es/master-plan-part-deux',
+    likes: 12,
+    __v: 0
   }
 ]
 
@@ -59,8 +75,8 @@ describe('total likes', () => {
 
   test('of a bigger list is calculated right', () => {
     const result = listHelper.totalLikes(blogs)
-    // 7 + 5 + 12 = 24
-    assert.strictEqual(result, 24)
+    // 7 + 5 + 12 + 5 + 12 = 41
+    assert.strictEqual(result, 41)
   })
 
   test('of empty list is zero', () => {
@@ -103,6 +119,17 @@ describe('most blogs', () => {
     const expected = {
       author: 'Edsger W. Dijkstra',
       blogs: 2
+    }
+    assert.deepStrictEqual(result, expected)
+  })
+})
+
+describe('most likes', () => {
+  test('returns the author with the most total likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    const expected = {
+      author: 'Edsger W. Dijkstra',
+      likes: 17 // 5 + 12 = 17
     }
     assert.deepStrictEqual(result, expected)
   })
