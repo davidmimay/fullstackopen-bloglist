@@ -101,6 +101,23 @@ describe('new blog', () => {
     // Verify 0 likes
     assert.strictEqual(response.body.likes, 0)
   })
+
+  test('blog without title or url is not added and returns 400', async () => {
+  const newBlogWithoutTitle = {
+    author: 'Test Author',
+    url: 'https://example.com/no-title',
+    likes: 3
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlogWithoutTitle)
+    .expect(400)
+
+  const blogsAtEnd = await api.get('/api/blogs')  
+  assert.strictEqual(blogsAtEnd.body.length, initialBlogs.length)
+  })
+
 })
 // Close Mongoose conection
 after(async () => {
