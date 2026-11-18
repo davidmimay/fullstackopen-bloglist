@@ -32,7 +32,7 @@ beforeEach(async () => {
   }
 })
 
-describe('super test', () => {
+describe('existing blog', () => {
 
   test('blogs are returned as json', async () => {
     await api
@@ -53,6 +53,9 @@ describe('super test', () => {
     // Veryfy _id do not exist
     assert.strictEqual(response.body[0]._id, undefined)
   })
+})
+
+describe('new blog', () => {
 
   test('a valid blog can be added', async () => {
     const newBlog = {
@@ -80,6 +83,23 @@ describe('super test', () => {
     // Verify title in response
     const titles = blogsAtEnd.body.map(b => b.title)
     assert.strictEqual(titles.includes('Async/await in Node.js testing'), true)
+  })
+
+  test('blog without likes property defaults to 0 likes', async () => {
+    const newBlogWithoutLikes = {
+      title: 'Blog without likes property',
+      author: 'Test Author',
+      url: 'https://example.com/no-likes'
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlogWithoutLikes)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    // Verify 0 likes
+    assert.strictEqual(response.body.likes, 0)
   })
 })
 // Close Mongoose conection
