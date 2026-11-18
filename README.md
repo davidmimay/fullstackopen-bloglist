@@ -6,3 +6,5 @@ $ npm run dev
 
 ## TEST
 $ npm run test
+
+$ npm install --save-dev supertest

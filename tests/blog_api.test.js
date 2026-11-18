@@ -1,0 +1,24 @@
+const { test, describe, after } = require('node:test')
+const assert = require('node:assert')
+const supertest = require('supertest')
+const mongoose = require('mongoose')
+const app = require('../app')
+
+const api = supertest(app)
+
+test('blogs are returned as json', async () => {
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+})
+
+test('all blogs are returned', async () => {
+  const response = await api.get('/api/blogs')
+  assert.strictEqual(response.body.length, 2) // Blogs created: 2
+})
+
+// Close Mongoose conection
+after(async () => {
+  await mongoose.connection.close()
+})
