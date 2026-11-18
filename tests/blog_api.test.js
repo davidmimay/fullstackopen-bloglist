@@ -74,7 +74,7 @@ describe('super test', () => {
     // Get blogs
     const blogsAtEnd = await api.get('/api/blogs')
     
-    // Verify +1
+    // Verify + 1
     assert.strictEqual(blogsAtEnd.body.length, blogsAtStart.body.length + 1)
 
     // Verify title in response
