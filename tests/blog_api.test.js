@@ -119,6 +119,27 @@ describe('new blog', () => {
   })
 
 })
+
+describe('deletion of a blog', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const responseAtStart = await api.get('/api/blogs')
+    const blogsAtStart = responseAtStart.body
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const responseAtEnd = await api.get('/api/blogs')
+    const blogsAtEnd = responseAtEnd.body
+
+    assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    assert.strictEqual(titles.includes(blogToDelete.title), false)
+  })
+})
+
 // Close Mongoose conection
 after(async () => {
   await mongoose.connection.close()
