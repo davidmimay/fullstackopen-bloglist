@@ -65,22 +65,61 @@ describe('when there is initially one user in db', () => {
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 
-  test('creation fails with 400 if password is missing or too short', async () => {
+  test('fails with status code 400 if password is missing or shorter than 3 characters', async () => {
     const usersAtStart = await User.find({})
 
-    const shortPasswordUser = {
-      username: 'shortpass',
-      name: 'Short Pass',
+    const invalidUser = {
+      username: 'validuser',
+      name: 'Invalid Password User',
       password: '12'
     }
 
     const result = await api
       .post('/api/users')
-      .send(shortPasswordUser)
+      .send(invalidUser)
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
     assert.strictEqual(result.body.error.includes('password must be at least 3 characters long'), true)
+
+    const usersAtEnd = await User.find({})
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
+  test('fails with status code 400 if username is missing or shorter than 3 characters', async () => {
+    const usersAtStart = await User.find({})
+
+    const invalidUser = {
+      username: 'ab',
+      name: 'Short Username',
+      password: 'validpassword'
+    }
+
+    await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+
+    const usersAtEnd = await User.find({})
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
+
+  test('fails with status code 400 if username is not unique', async () => {
+    const usersAtStart = await User.find({})
+
+    const duplicateUser = {
+      username: 'root', // ya creado en el beforeEach
+      name: 'Duplicate User',
+      password: 'validpassword'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(duplicateUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    assert.strictEqual(result.body.error.includes('expected `username` to be unique'), true)
 
     const usersAtEnd = await User.find({})
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
